@@ -1,5 +1,3 @@
-// web/webpack.config.js
-
 const path = require('path');
 const webpack = require('webpack');
 
@@ -75,10 +73,15 @@ const ttfLoaderConfiguration = {
 	],
 };
 
+const tsLoaderConfigation =  {
+	test : /\.tsx?$/,
+	use: ['ts-loader'],
+};
+
 module.exports = {
 	// your web-specific entry file
-	entry: path.resolve(appDirectory, 'src/index.js'),
-	devtool: 'eval',
+	entry: path.resolve(appDirectory, 'src/index.tsx'),
+	devtool: 'source-map',
 
 	// configures where the build ends up
 	output: {
@@ -93,6 +96,7 @@ module.exports = {
 			cssLoaderConfiguration,
 			imageLoaderConfiguration,
 			ttfLoaderConfiguration,
+			tsLoaderConfigation,
 		],
 	},
 
@@ -111,7 +115,7 @@ module.exports = {
 		// module implementations should be written in files using the extension
 		// '.web.js'.
 		symlinks: false,
-		extensions: ['.web.js', '.js'],
+		extensions: ['.web.tsx', '.web.ts', '.web.js', '.tsx', '.ts', '.js', '.json'],
 		alias: {
 			'./assets/images/expo-icon.png': './assets/images/expo-icon@2x.png',
 			'./assets/images/slack-icon.png': './assets/images/slack-icon@2x.png',
@@ -119,5 +123,10 @@ module.exports = {
 			expo: 'expo-web',
 			'react-native': 'react-native-web',
 		},
+	},
+
+	externals: {
+		"react": "React",
+		"react-dom": "ReactDOM",
 	},
 };
